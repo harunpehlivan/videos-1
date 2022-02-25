@@ -4,10 +4,7 @@ maxn = 10
 
 
 def func(x, b=3):
-    y = 0
-    for i in range(1, maxn):
-        y += np.cos((b ** i) * PI * x) / (3 ** i)
-    return y
+    return sum(np.cos((b ** i) * PI * x) / (3 ** i) for i in range(1, maxn))
 
 
 class Graph(Scene):
@@ -108,10 +105,7 @@ class Secant(MovingCameraScene):
     @staticmethod
     def func(x, b=3):
         x *= 1/10
-        y = 0
-        for i in range(1, maxn):
-            y += np.cos((b ** i) * PI * x) / (2 ** i)
-        return y
+        return sum(np.cos((b ** i) * PI * x) / (2 ** i) for i in range(1, maxn))
 
     def f_s(self, x, scale=17):
         x *= 1/scale
@@ -119,12 +113,9 @@ class Secant(MovingCameraScene):
 
 
 def anti_func(x, b=3):
-    y = 0
-    for i in range(1, maxn):
-        y += (1 / (9 ** i * PI)) * np.sin(3 ** i * PI * x)
-        # y += -((b ** i) * PI) * np.sin((b ** i) * PI * x) / 3 ** i
-        #y += np.cos((b ** i) * PI * x) / (3 ** i)
-    return y
+    return sum(
+        (1 / (9 ** i * PI)) * np.sin(3 ** i * PI * x) for i in range(1, maxn)
+    )
 
 
 class AntiDerivative(Scene):

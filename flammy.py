@@ -68,16 +68,16 @@ class Prob(Scene):
         CounterHeads.next_to(CounterHeadsTxt, RIGHT)
         CounterTails = TextMobject("0")
         CounterTails.next_to(CounterTailsTxt, RIGHT)
-        
+
         while t < throws+1:
 
             ht = randint(0, 1)
 
             if ht == 0:
 
-                heads = heads + 1
+                heads += 1
 
-                
+
                 CounterHeadsNew = TextMobject(heads)
 
                 recttailsbefore = Rectangle(fill_color=GOLD_B, fill_opacity=1, height=(
@@ -89,7 +89,7 @@ class Prob(Scene):
                 recttailsnew.to_edge(DOWN)
                 recttailsnew.shift(2*LEFT)
                 recttailsbefore.shift(2*LEFT)
-                
+
                 CounterHeadsNew.next_to(CounterHeadsTxt, RIGHT)
 
                 # self.play(Uncreate(CounterHeadsOld))
@@ -98,9 +98,9 @@ class Prob(Scene):
 
             elif ht == 1:
 
-                tails = tails + 1
+                tails += 1
 
-                
+
                 CounterTailsNew = TextMobject(tails)
 
                 rectheadbefore = Rectangle(fill_color=BLUE_B, fill_opacity=1, height=(
@@ -112,11 +112,11 @@ class Prob(Scene):
                 rectheadnew.to_edge(DOWN)
                 rectheadnew.shift(2*RIGHT)
                 rectheadbefore.shift(2*RIGHT)
-                
+
                 CounterTailsNew.next_to(CounterTailsTxt, RIGHT)
 
                 # self.play(Uncreate(CounterTailsOld))
                 self.play(Transform(rectheadbefore, rectheadnew),
                           Transform(CounterTails, CounterTailsNew))
 
-            t = t + 1
+            t += 1

@@ -88,7 +88,7 @@ class QLearning(Scene):
         self.play(Write(flow))
         self.wait()
 
-        for i in range(0, 6):
+        for i in range(6):
             self.play(ApplyMethod(flow.fade_all_but, i))
             self.wait()
 
@@ -258,8 +258,7 @@ class Taxi(Scene):
         self.wait()
 
     def continual_update(self, dt):
-        if self.continual:
-            pass
+        pass
 
     def train(self, num_episodes=2000, learning_rate=0.618, gamma=1, to_print=True, interval=50, to_render=True):
         if to_print:
@@ -311,8 +310,7 @@ class Taxi(Scene):
 
     @staticmethod
     def decode(i):
-        out = []
-        out.append(i % 4)
+        out = [i % 4]
         i = i // 4
         out.append(i % 5)
         i = i // 5

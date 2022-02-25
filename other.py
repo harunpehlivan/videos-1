@@ -182,7 +182,7 @@ class Test(Scene):
         sin11.shift(7 * LEFT)
 
         self.play(Write(sin1))
-        for i in range(5):
+        for _ in range(5):
             self.play(Transform(sin1, sin2))
             self.play(Transform(sin1, sin11))
 
@@ -252,7 +252,7 @@ class BannerE(Scene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c, stroke_width=30).shift(point)
         if opacity:
@@ -288,8 +288,7 @@ class BannerE(Scene):
 
     @staticmethod
     def r_prime(x):
-        r_d = np.array([2 / (1 + x ** 2), 1, 0])
-        return r_d
+        return np.array([2 / (1 + x ** 2), 1, 0])
 
 
 class FTC(GraphScene):
