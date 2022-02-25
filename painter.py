@@ -491,7 +491,7 @@ class TwoConverge(Scene):
         self.play(Write(eq1))
 
         for i in range(1, 10):
-            val = sum([1/(2**n) for n in range(i)])
+            val = sum(1/(2**n) for n in range(i))
             s = Line(6*LEFT, 6*LEFT + 6*val*RIGHT, stroke_width=2 *
                      DEFAULT_STROKE_WIDTH, color=YELLOW)
             self.add(s)

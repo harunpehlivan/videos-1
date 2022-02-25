@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.cm as cm
 import math
 
-ASPECT_RATIO = 1.0 / 1.0
+ASPECT_RATIO = 1.0
 FRAME_HEIGHT = 8.0
 FRAME_WIDTH = FRAME_HEIGHT * ASPECT_RATIO
 
@@ -40,13 +40,9 @@ for i in range(len(y_values) - 1)[::-1]:
 
         z = (x+y*1j)
 
-        if z.real != 0:
-            theta = 2*(math.atan(z.imag/z.real) + np.pi/2)
-        else:
-            theta = np.pi
-        
+        theta = 2*(math.atan(z.imag/z.real) + np.pi/2) if z.real != 0 else np.pi
         pixel = [x * 255 for x in cm.viridis(theta/(2*np.pi))]
-        
+
         pixels[-1].append(pixel)
 
 

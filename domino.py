@@ -7,12 +7,12 @@ class Grid(VGroup):
         self.m = m
         self.n = n
         self.s_width = s_width
-        for x in range(0, m + 1):
+        for x in range(m + 1):
             self.add(Line(
                 s_width * np.array([x - m/2, -n/2, 0]),
                 s_width * np.array([x - m/2, n/2, 0]))
             )
-        for y in range(0, n + 1):
+        for y in range(n + 1):
             self.add(Line(
                 s_length * np.array([-m/2, y - n/2, 0]),
                 s_length * np.array([m/2, y - n/2, 0]))
@@ -23,7 +23,7 @@ class Chessboard(Grid):
     def __init__(self, m, n, s_width=1, s_length=1, **kwargs):
         Grid.__init__(self, m, n, s_width=s_width, s_length=s_length, **kwargs)
         for x in range(0, m, 2):
-            for y in range(0, n):
+            for y in range(n):
                 pos = s_width * \
                     np.array([x - m/2 + (1 if y % 2 == 0 else 0) + 0.5,
                               y - n/2 + 0.5,
@@ -55,8 +55,7 @@ class DominoGrid(Grid):
         return rects
 
     def get_rect(self, pos1, pos2):
-        if pos1 // self.m == pos2 // self.m:
-            rect = Polygon(
+        return Polygon(
                 self.get_point(pos1) + np.array([-self.dt, self.dt, 0]),
                 self.get_point(pos2) + np.array([self.dt, self.dt, 0]),
                 self.get_point(pos2) - np.array([-self.dt, self.dt, 0]),
@@ -64,9 +63,7 @@ class DominoGrid(Grid):
                 fill_opacity=1,
                 stroke_color=WHITE,
                 color=self.colors[pos1 % len(self.colors)]
-            )
-        else:
-            rect = Polygon(
+            ) if pos1 // self.m == pos2 // self.m else Polygon(
                 self.get_point(pos1) + np.array([self.dt, self.dt, 0]),
                 self.get_point(pos2) + np.array([self.dt, -self.dt, 0]),
                 self.get_point(pos2) - np.array([self.dt, self.dt, 0]),
@@ -75,7 +72,6 @@ class DominoGrid(Grid):
                 stroke_color=WHITE,
                 color=self.colors[pos1 % len(self.colors)]
             )
-        return rect
 
     def get_point(self, n):
         return self.s_width * np.array([n % self.m - self.s_width, self.s_width - n // self.n, 0])
@@ -367,16 +363,13 @@ class TreeMobject(VGroup):
         n_neurons = size
         if n_neurons > self.max_shown_neurons:
             n_neurons = self.max_shown_neurons
-        neurons = VGroup(*[
-            Circle(
+        neurons = VGroup(*[Circle(
                 radius=self.neuron_radius,
                 stroke_color=self.neuron_stroke_color,
                 stroke_width=self.neuron_stroke_width,
                 fill_color=self.neuron_fill_color,
                 fill_opacity=0,
-            )
-            for x in range(n_neurons)
-        ])
+            ) for _ in range(n_neurons)])
         neurons.arrange_submobjects(
             DOWN, buff=self.neuron_to_neuron_buff
         )
@@ -510,7 +503,7 @@ class GridGraph(VGroup):
                 Line(self.get_point(i), self.get_point(i + m * (n - 1)))
             )
 
-        for i in range(0, m * n):
+        for i in range(m * n):
             self.circles.add(
                 Circle(radius=0.15, color=self.colors[i % len(self.colors)], fill_opacity=1).shift(
                     self.get_point(i))
@@ -532,17 +525,14 @@ class GridGraph(VGroup):
         return edges
 
     def set_black_white(self):
-        if self.m % 2 == 1 or self.n % 2 == 1:
-            for i in range(self.m * self.n):
+        for i in range(self.m * self.n):
+            if self.m % 2 == 1 or self.n % 2 == 1:
                 c = self.bw[i % 2]
-                self.circles[i].set_fill(color=c)
-                self.circles[i].set_stroke(color=c)
-        else:
-            for i in range(self.m * self.n):
+            else:
                 c = self.bw[i % 2] if (
                     i // self.m) % 2 == 0 else self.bw[(i + 1) % 2]
-                self.circles[i].set_fill(color=c)
-                self.circles[i].set_stroke(color=c)
+            self.circles[i].set_fill(color=c)
+            self.circles[i].set_stroke(color=c)
 
     def get_labels(self):
         self.labels = VGroup()
@@ -615,7 +605,7 @@ class PerfectBipartiteGraph(VGroup):
         self.n = n
         self.line_color = line_color
 
-        self.vertices = [None for i in range(2 * n)]
+        self.vertices = [None for _ in range(2 * n)]
         self.lines = VGroup()
 
         for i in range(n):
@@ -656,7 +646,7 @@ class PerfectBipartiteGraph(VGroup):
 class BipartiteGraphs(Scene):
     def construct(self):
         b1 = PerfectBipartiteGraph()
-        b1.add_perm([[0, 1, 2] for i in range(3)])
+        b1.add_perm([[0, 1, 2] for _ in range(3)])
 
         b2 = PerfectBipartiteGraph()
         b2.add_perm([[1], [2], [0]])
@@ -1260,7 +1250,7 @@ class Example(Scene):
         self.play(Transform(gl2, gl))
 
         for y in range(3, 0, -1):
-            for x in range(0, 3):
+            for x in range(3):
                 if y == 3 and x == 0:
                     continue
                 ei = graph2.get_edge(4 * y + x, 4 * (y - 1) + x, color=BLACK)
@@ -1288,8 +1278,8 @@ class Example(Scene):
         self.wait()
 
         for n, i in enumerate(rme):
-            i.set_color(RED if n % 3 == 0 or n % 3 == 2 else BLUE)
-            i.set_stroke(width=6 if n % 3 == 0 or n % 3 == 2 else 4)
+            i.set_color(RED if n % 3 in [0, 2] else BLUE)
+            i.set_stroke(width=6 if n % 3 in [0, 2] else 4)
             self.play(Write(i))
             self.wait(0.5)
 

@@ -16,7 +16,7 @@ class NumberedList(BulletedList):
     }
 
     def __init__(self, *items, **kwargs):
-        line_separated_items = [s + "\\\\" for s in items]
+        line_separated_items = [f'{s}\\\\' for s in items]
         TextMobject.__init__(self, *line_separated_items, **kwargs)
         for num, part in enumerate(self):
             dot = TexMobject(f"{num+1})", color=self.dot_color,

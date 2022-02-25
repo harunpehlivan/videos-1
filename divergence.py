@@ -310,7 +310,7 @@ class FluxIntegral(Scene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c).shift(point)
         if opacity:
@@ -340,9 +340,9 @@ class FluxIntegral(Scene):
             0
         ])
         mag = math.sqrt(vect[0] ** 2 + vect[1] ** 2)
-        v = Vector((1/mag) * vect, color=GREEN).shift(self.func(t)
-                                                      [0] * RIGHT + self.func(t)[1] * UP)
-        return v
+        return Vector((1 / mag) * vect, color=GREEN).shift(
+            self.func(t)[0] * RIGHT + self.func(t)[1] * UP
+        )
 
     @staticmethod
     def func2(t, a=9.6):
@@ -453,7 +453,7 @@ class FluxExample(Scene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c).shift(point)
         if opacity:
@@ -586,7 +586,7 @@ class DivDemo(Scene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c).shift(point)
         if opacity:
@@ -789,7 +789,7 @@ class DivTwoVisual(Scene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c).shift(point)
         if opacity:
@@ -835,9 +835,9 @@ class DivTwoVisual(Scene):
             0
         ])
         mag = math.sqrt(vect[0] ** 2 + vect[1] ** 2)
-        v = Vector((1/mag) * vect, color=GREEN).shift(self.func(t)
-                                                      [0] * RIGHT + self.func(t)[1] * UP)
-        return v
+        return Vector((1 / mag) * vect, color=GREEN).shift(
+            self.func(t)[0] * RIGHT + self.func(t)[1] * UP
+        )
 
 
 class IntP1(GraphScene):
@@ -964,11 +964,9 @@ class IntP2(ThreeDScene):
         ])
 
         mag = math.sqrt(vect[0] ** 2 + vect[1] ** 2 + vect[2] ** 2)
-        v = Vector(
-            (0.5/mag) * vect,
-            color=GREEN,
-            stroke_width=DEFAULT_STROKE_WIDTH).shift(2*x * RIGHT + 2*y * UP + 2*z * OUT)
-        return v
+        return Vector(
+            (0.5 / mag) * vect, color=GREEN, stroke_width=DEFAULT_STROKE_WIDTH
+        ).shift(2 * x * RIGHT + 2 * y * UP + 2 * z * OUT)
 
     def calc_field_color(self, point, f, prop=0.0, opacity=None):
         x, y, z = point[:]
@@ -977,7 +975,7 @@ class IntP2(ThreeDScene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c).shift(point)
         if opacity:
@@ -1045,7 +1043,7 @@ class IntP3(ThreeDScene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c).shift(point)
         if opacity:

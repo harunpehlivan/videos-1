@@ -611,7 +611,7 @@ class VectorField(Scene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         return Vector(func, color=c).shift(point)
 
@@ -820,7 +820,7 @@ class LineIntegralVector(Scene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c).shift(point)
         if opacity:
@@ -856,8 +856,7 @@ class LineIntegralVector(Scene):
 
     @staticmethod
     def r_prime(x):
-        r_d = np.array([2 / (1 + x ** 2), 1, 0])
-        return r_d
+        return np.array([2 / (1 + x ** 2), 1, 0])
 
     def continual_update(self, *args, **kwargs):
         Scene.continual_update(self, *args, **kwargs)

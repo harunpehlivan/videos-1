@@ -121,7 +121,7 @@ class Setup(Scene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c).shift(point)
         if opacity:
@@ -253,7 +253,7 @@ class CurlDemo(Scene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c).shift(point)
         if opacity:
@@ -493,7 +493,7 @@ class GreenTheoremVisual(Scene):
         func = func / magnitude if magnitude != 0 else np.array([0, 0])
         func = func / 1.5
         v = int(magnitude / 10 ** prop)
-        index = len(self.color_list) - 1 if v > len(self.color_list) - 1 else v
+        index = min(v, len(self.color_list) - 1)
         c = self.color_list[index]
         v = Vector(func, color=c).shift(point)
         if opacity:

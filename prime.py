@@ -7,19 +7,10 @@ from mpmath.libmp.libintmath import moebius
 
 class PrimeMethods:
     def count_prime(self, x):
-        counter = 0
-
-        for i in range(2, int(x) + 1):
-            if self.isPrime(i):
-                counter += 1
-
-        return counter
+        return sum(bool(self.isPrime(i)) for i in range(2, int(x) + 1))
 
     def isPrime(self, x):
-        for i in range(2, int(x/2) + 1):
-            if x % i == 0:
-                return False
-        return True
+        return all(x % i != 0 for i in range(2, int(x/2) + 1))
 
     def pnt(self, x):
         return self.count_prime(x)/(x/math.log(x))
@@ -565,7 +556,7 @@ class Riemann(Scene):
         f = ["Analysis", "Number Theory", "Differential Geometry"]
         fields = VGroup()
 
-        for i in range(0, 3):
+        for i in range(3):
             b = Circle(radius=0.1, fill_opacity=1, color=ORANGE)
             b.shift(i * UP + 1 * RIGHT)
 
@@ -647,7 +638,7 @@ class ComplexExponent(Scene):
         self.play(Write(b1))
         self.wait()
 
-        self.play(FadeOut(eq1[0:3]), FadeOut(eq1[5:]), ApplyMethod(
+        self.play(FadeOut(eq1[:3]), FadeOut(eq1[5:]), ApplyMethod(
             eq1[3:5].center), ApplyMethod(b1.center))
         self.wait()
 
@@ -928,7 +919,7 @@ class RiemannVisual(GraphScene):
         x = interpolate(0.01, 0.99, dt)
         n = int(x * 100)
         if n < 10:
-            n = "0" + str(n)
+            n = f"0{n}"
         n = str(n)
         text = TexMobject(r"\text{Re}(s) = 0." + n)
         text.scale(1.25)
@@ -1008,18 +999,13 @@ class RiemannLevelCurves(Scene):
         plane = VGroup(p, p.get_coordinate_labels())
 
         for x in np.arange(-5, 5, 0.1):
-            for y in np.arange(-20, 20, 0.1):
-                if self.pass_real(x, y):
-                    f.append([x, y, 0])
-
+            f.extend([x, y, 0] for y in np.arange(-20, 20, 0.1) if self.pass_real(x, y))
         p = Polygon(*f)
         self.play(Write(plane), Write(p))
         self.wait()
 
     def pass_real(self, x, y):
-        if -0.05 < float(zeta(complex(x, y)).imag) < 0.05:
-            return True
-        return False
+        return -0.05 < float(zeta(complex(x, y)).imag) < 0.05
 
 
 class PrimePi(GraphScene, PrimeMethods):

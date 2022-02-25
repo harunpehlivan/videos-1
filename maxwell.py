@@ -86,10 +86,7 @@ class ThreeDArrow(Line):
         p0, p1, p2 = self.tip[0].get_anchors()[:3]
         result = np.cross(p2 - p1, p1 - p0)
         norm = get_norm(result)
-        if norm == 0:
-            return self.normal_vector
-        else:
-            return result / norm
+        return self.normal_vector if norm == 0 else result / norm
 
     def reset_normal_vector(self):
         self.normal_vector = self.get_normal_vector()
@@ -335,13 +332,11 @@ class ACWave(ThreeDScene):
 
         self.move_camera(0.4 * np.pi / 2, -PI/2)
 
-        for i in range(3):
+        for _ in range(3):
             self._update()
 
     def continual_update(self, *args, **kwargs):
         Scene.continual_update(self, *args, **kwargs)
-        if self.update:
-            pass
 
     def _update(self):
         self.play(Transform(self.pos, self.neg2),

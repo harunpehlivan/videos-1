@@ -519,19 +519,12 @@ class LagrangeIntro(Scene):
         self.wait()
 
         def hide_all_but(idx):
-            anims = []
-
-            for i in range(3):
-                if i != idx:
-                    anims.append(Transform(l_c[i], l_faded[i]))
+            anims = [Transform(l_c[i], l_faded[i]) for i in range(3) if i != idx]
 
             self.play(*anims)
 
         def show_all():
-            anims = []
-
-            for i in range(3):
-                anims.append(Transform(l_c[i], l_cp[i]))
+            anims = [Transform(l_c[i], l_cp[i]) for i in range(3)]
 
             self.play(*anims)
 
@@ -821,7 +814,7 @@ class FinitePoly(Scene):
 
         points = VGroup()
 
-        for x in range(0, 5):
+        for x in range(5):
             y = (x**2 + 2) % 5
             obj = Dot(axes.c2p(x, y), color=A_RED,
                       radius=2 * DEFAULT_DOT_RADIUS)

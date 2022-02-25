@@ -150,13 +150,32 @@ class Satisfy(Scene):
 
         a = VGroup(a1, b1, a2, b2)
 
-        state = TexMobject(
-            r"\text{("+str(x)+r","+str(y) +
-            r") does not satisfy the equation }2y = 3x + 11",
-            tex_to_color_map={r"2y = 3x + 1": YELLOW, r"("+str(x)+r","+str(y)+r")": GREEN}) if y * 2 != 3 * x + 1 else TexMobject(
-                r"\text{("+str(x)+r","+str(y) +
-            r") satisfies the equation }2y = 3x + 11",
-                tex_to_color_map={r"2y = 3x + 1": YELLOW, r"("+str(x)+r","+str(y)+r")": GREEN})
+        state = (
+            TexMobject(
+                r"\text{("
+                + str(x)
+                + r","
+                + str(y)
+                + r") does not satisfy the equation }2y = 3x + 11",
+                tex_to_color_map={
+                    r"2y = 3x + 1": YELLOW,
+                    f"({str(x)},{str(y)})": GREEN,
+                },
+            )
+            if y * 2 != 3 * x + 1
+            else TexMobject(
+                r"\text{("
+                + str(x)
+                + r","
+                + str(y)
+                + r") satisfies the equation }2y = 3x + 11",
+                tex_to_color_map={
+                    r"2y = 3x + 1": YELLOW,
+                    f"({str(x)},{str(y)})": GREEN,
+                },
+            )
+        )
+
 
         state.shift(3.25 * DOWN)
 

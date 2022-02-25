@@ -78,16 +78,13 @@ class TreeMobject(VGroup):
         n_neurons = size
         if n_neurons > self.max_shown_neurons:
             n_neurons = self.max_shown_neurons
-        neurons = VGroup(*[
-            Circle(
+        neurons = VGroup(*[Circle(
                 radius=self.neuron_radius,
                 stroke_color=self.neuron_stroke_color,
                 stroke_width=self.neuron_stroke_width,
                 fill_color=self.neuron_fill_color,
                 fill_opacity=0,
-            )
-            for x in range(n_neurons)
-        ])
+            ) for _ in range(n_neurons)])
         neurons.arrange_submobjects(
             DOWN, buff=self.neuron_to_neuron_buff
         )

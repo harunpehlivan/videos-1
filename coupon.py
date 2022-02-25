@@ -2,7 +2,7 @@ from manimlib.imports import *
 
 
 def coupon(N):
-    return N * sum([1/i for i in range(1, N+1)])
+    return N * sum(1/i for i in range(1, N+1))
 
 
 class TreeMobject(VGroup):
@@ -46,16 +46,13 @@ class TreeMobject(VGroup):
         n_neurons = size
         if n_neurons > self.max_shown_neurons:
             n_neurons = self.max_shown_neurons
-        neurons = VGroup(*[
-            Circle(
+        neurons = VGroup(*[Circle(
                 radius=self.neuron_radius,
                 stroke_color=self.neuron_stroke_color,
                 stroke_width=self.neuron_stroke_width,
                 fill_color=self.neuron_fill_color,
                 fill_opacity=0,
-            )
-            for x in range(n_neurons)
-        ])
+            ) for _ in range(n_neurons)])
         neurons.arrange_submobjects(
             DOWN, buff=self.neuron_to_neuron_buff
         )
@@ -154,7 +151,7 @@ class Intro(Scene):
         cards.add(TexMobject("...").scale(2))
         cards.shift(1 * UP)
 
-        for i in range(0, 4):
+        for i in range(4):
             self.play(FadeInFromDown(cards[i]), run_time=0.5)
 
         self.play(Write(cards[4]))
@@ -312,7 +309,7 @@ class Bernoulli(Scene):
         self.play(Write(b))
         self.wait()
 
-        for i in range(0, 3):
+        for i in range(3):
             self.play(b.fade_all_but, i)
             self.wait()
 
